@@ -13,6 +13,7 @@ const routes = [
 
 export default new Router({
 	routes,
+	base: '/formular-builder/',
 	mode: 'history',
 	linkExactActiveClass: 'active'
 })
