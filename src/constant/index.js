@@ -26,12 +26,12 @@ const OPERATOR = {
 }
 
 const COLOR_BANK = [
-	{ open: ['bg-gray-500', 'text-white'], close: ['bg-gray-500', 'text-gray-500'], border: ['border-gray-500'] },
-	{ open: ['bg-green-500', 'text-white'], close: ['bg-green-500', 'text-green-500'], border: ['border-green-500'] },
-	{ open: ['bg-blue-500', 'text-white'], close: ['bg-blue-500', 'text-blue-500'], border: ['border-blue-500'] },
-	{ open: ['bg-indigo-500', 'text-white'], close: ['bg-indigo-500', 'text-indigo-500'], border: ['border-indigo-500'] },
-	{ open: ['bg-pink-400', 'text-white'], close: ['bg-pink-400', 'text-pink-400'], border: ['border-pink-500'] },
-	{ open: ['bg-yellow-400', 'text-white'], close: ['bg-yellow-400', 'text-yellow-400'], border: ['border-yellow-500'] },
+	{ open: ['bg-gray-400', 'text-gray-700'], close: ['bg-gray-400', ], border: ['border-gray-400'], hover: ['hover:bg-gray-200'] },
+	{ open: ['bg-green-400', 'text-gray-700'], close: ['bg-green-400' ], border: ['border-green-400'], hover: ['hover:bg-green-200'] },
+	{ open: ['bg-blue-400', 'text-gray-700'], close: ['bg-blue-400' ], border: ['border-blue-400'], hover: ['hover:bg-blue-200'] },
+	{ open: ['bg-indigo-400', 'text-gray-700'], close: ['bg-indigo-400', ], border: ['border-indigo-400'], hover: ['hover:bg-indigo-200'] },
+	{ open: ['bg-pink-400', 'text-gray-700'], close: ['bg-pink-400' ], border: ['border-pink-400'], hover: ['hover:bg-pink-200'] },
+	{ open: ['bg-yellow-400', 'text-gray-700'], close: ['bg-yellow-400'], border: ['border-yellow-400'], hover: ['hover:bg-yellow-200'] },
 ]
 
 const numberFormatter = function (value, format) {

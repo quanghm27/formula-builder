@@ -6,19 +6,42 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         formular: [], activeId: 0,
-    }, mutations: {
+    },
+    mutations: {
         setActiveId(state, payload) {
             state.activeId = payload
-        }, addItem(state, payload) {
+        },
+        addNode(state, payload) {
             if (state.formular.length === 0) {
                 state.formular.push(payload)
             } else {
                 const operator = findActive(state.formular[0], state.activeId)
-                console.log(state.activeId, operator, state.formular[0])
                 operator.items.push(payload)
             }
         },
-    }, actions: {}, getters: {
+        editNode(state, payload) {
+            if (!payload.parentId && !payload.indexInParent) {
+                // Edit root Node
+                state.formular.splice(0, 1, payload.value)
+            } else {
+                const parent = findActive(state.formular[0], payload.parentId)
+                const currentIndex = payload.indexInParent
+                parent.items.splice(currentIndex, 1, payload.value)
+            }
+        },
+        deleteNode(state, payload) {
+            if (!payload.parentId && !payload.indexInParent) {
+                // Delete root Node
+                state.formular.splice(0, 1)
+            } else {
+                const parent = findActive(state.formular[0], payload.parentId)
+                const currentIndex = payload.indexInParent
+                parent.items.splice(currentIndex, 1)
+            }
+        }
+    },
+    actions: {},
+    getters: {
         existOperator(state) {
             return !isEmpty(state.formular)
         }

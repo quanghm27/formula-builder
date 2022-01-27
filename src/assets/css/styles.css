@@ -46,3 +46,22 @@
   }
 }
 
+/** Scroll-bar light and dark **/
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+ background: #e6e6e6;
+ border-left: 1px solid #dadada;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b0b0b0;
+  border: solid 3px #e6e6e6;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8bbbf;
+}
