@@ -4,18 +4,18 @@
       <transition name="moveInUp">
         <router-view />
       </transition>
-      <Panel />
+      <Modal />
     </div>
   </div>
 </template>
 
 <script>
-import Panel from './components/common/ModalFormular'
+import Modal from "@/components/common/Modal"
 
 export default {
   name: 'App',
   components: {
-    Panel
+    Modal,
   }
 }
 </script>

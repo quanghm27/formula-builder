@@ -4,6 +4,8 @@ import store from "@/store"
 import router from "@/router"
 import "./assets/css/styles.css"
 import eventBus from "@/utils/eventBus"
+import "./utils/directives"
+
 Vue.prototype.$bus = eventBus
 
 Vue.config.productionTip = false

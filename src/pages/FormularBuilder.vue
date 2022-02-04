@@ -1,108 +1,94 @@
 <template>
   <div class="w-1/2 mx-auto">
     <div class="mb-2 text-center text-3xl text-teal-700">
-      Formular Builder
+      Formula Builder
     </div>
-    <div class=" bg-gray-200 py-4 px-2 shadow-lg border overflow-x-auto">
-      <Operator
-        ref="rootNode"
-        :operator="formular[0]"
-      />
-      <span
-        v-if="formular && Object.keys(formular).length === 0"
-        class="cursor-pointer bg-blue-500 text-white py-1 px-2 rounded"
+    <div class="bg-gray-200 py-4 px-2 shadow-lg border overflow-x-auto">
+      <div
+        v-if="!existFormula"
+        class="cursor-pointer bg-blue-500 text-white py-1 px-2 rounded w-40 mx-auto"
         @click="showPanel"
       >
         Add Something...
-      </span>
+      </div>
       <div
-        v-if="existFormular"
-        class="flex-col mt-8"
+        v-if="existFormula"
+        class="text-teal-700 font-semibold text-xl mb-2"
       >
-        <!--        <div class="mb-8">-->
-        <!--          <Hint-->
-        <!--            :sample-node="formular[0]"-->
-        <!--            :bracket="rootNodeBracket"-->
-        <!--          />-->
-        <!--        </div>-->
-        <div class="flex gap-2">
-          <span
-            v-if="existFormular"
-            class="px-4 py-1 text-white bg-blue-600 rounded cursor-pointer uppercase"
-            @click="getResult"
-          >
-            View result
-          </span>
-          <p class="py-1 text-gray-700 font-bold">
-            {{ result }}
-          </p>
-        </div>
+        Nested capsule 💊
+      </div>
+      <nested-capsule-formula
+        :formula="formula"
+      />
+      <div
+        v-if="existFormula"
+        class="text-teal-700 mt-10 font-semibold text-xl mb-2"
+      >
+        Tree view 🌲
+      </div>
+      <tree-view
+        :formula="formula"
+      />
+    </div>
+    <div
+      v-if="existFormula"
+      class="flex-col mt-8"
+    >
+      <div class="flex gap-2">
+        <span
+          v-if="existFormula"
+          class="px-4 py-1 text-white bg-blue-600 rounded cursor-pointer uppercase"
+          @click="getResult"
+        >
+          View result
+        </span>
+        <p class="py-1 text-gray-700 font-bold">
+          {{ result }}
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Operator from '@/components/common/Operator'
-import { OPERATOR, numberFormatter } from "../constant"
+import { numberFormatter, calculateFormula } from "../helpers"
+import NestedCapsuleFormula from "../components/formula/NestedCapsuleFormula.vue"
+import TreeView from "@/components/formula/TreeView";
 
 export default {
-  name: "FormularBuilder",
-  components: { Operator },
+  name: "FormulaBuilder",
+  components: { TreeView, NestedCapsuleFormula },
   filters: {
-    number: numberFormatter
+    number: numberFormatter,
   },
-  rootNodeBracket: '',
   data() {
     return {
-      result: ''
+      result: "",
     }
   },
   computed: {
-    formular() {
-      return this.$store.state.formular
+    formula() {
+      return this.$store.state.formula
     },
-    existFormular() {
-      return this.$store.getters.existOperator
+    existFormula() {
+      return this.$store.getters.existFormula
     },
-  },
-  mounted() {
-    this.rootNodeBracket = this.$refs.rootNode.bracket
   },
   methods: {
     getResult() {
       try {
-        const result = recursiveCalculate(this.formular[0])
+        const result = calculateFormula(this.formula)
         this.result = this.$options.filters.number(result)
-      } catch(e) {
+      } catch (e) {
         console.error(e)
-        this.result = 'There are operation that missing arguments...'
+        this.result = "There is formula that missing arguments..."
       }
     },
     showPanel() {
-      this.$bus.$emit('show-panel')
-    }
-  }
-}
-function recursiveCalculate(obj) {
-  let currentNums = []
-  
-  obj.items.forEach(item => {
-    if (typeof item === 'object') {
-      currentNums.push(recursiveCalculate(item))
-    } else {
-      currentNums.push(+item)
-    }
-  })
-  if (currentNums.length === obj.items.length) {
-    console.log(obj.name, currentNums)
-    console.log('total: ', OPERATOR[obj.name](currentNums))
-    
-    return OPERATOR[obj.name](currentNums)
-  }
+      this.$bus.$emit("show-panel")
+    },
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
