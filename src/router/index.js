@@ -8,12 +8,12 @@ Vue.use(Router)
 
 const routes = [
 	{ path: '/', component: FormularBuilder },
-	{ path: '/formular', component: FormularBuilder },
+	{ path: '/formula', component: FormularBuilder },
 ]
 
 export default new Router({
 	routes,
-	base: '/formular-builder/',
+	base: '/formula-builder/',
 	mode: 'history',
 	linkExactActiveClass: 'active'
 })
