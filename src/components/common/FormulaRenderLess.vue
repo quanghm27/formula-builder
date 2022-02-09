@@ -13,16 +13,18 @@ export default {
   },
   methods: {
     addChild(formula) {
-      this.$store.commit("setActiveNode", formula)
-      this.$bus.$emit("show-panel")
+      this.$bus.$emit("show-panel", {
+        activeNode: formula
+      })
     },
     editNode(formula) {
-      this.$store.commit("setActiveNode", formula)
       this.$bus.$emit("show-panel", {
         edit: true,
+        activeNode: formula
       })
     },
     deleteNode(formula) {
+      this.$bus.$emit("newMutation")
       setTimeout(() => {
         this.$store.commit("deleteNode", formula)
       }, 500)

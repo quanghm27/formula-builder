@@ -1,5 +1,5 @@
 {
-  "name": "formular-builder",
+  "name": "formula-builder",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,6 +12,7 @@
     "autoprefixer": "^9.0.0",
     "axios": "^0.25.0",
     "core-js": "^3.6.5",
+    "lodash.clonedeep": "^4.5.0",
     "postcss": "^8.4.5",
     "tailwindcss": "1.9.6",
     "vue": "^2.6.11",

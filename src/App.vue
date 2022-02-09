@@ -1,11 +1,9 @@
 <template>
   <div id="app">
-    <div class="w-full h-screen bg-blue-200 py-4">
-      <transition name="moveInUp">
-        <router-view />
-      </transition>
-      <Modal />
-    </div>
+    <transition name="moveInUp">
+      <router-view />
+    </transition>
+    <Modal />
   </div>
 </template>
 

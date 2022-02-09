@@ -121,6 +121,7 @@ export default {
       },
       show: false,
       editMode: false,
+      activeNode: null,
     }
   },
   computed: {
@@ -135,9 +136,6 @@ export default {
       return this.disabledNumber
         ? ['text-gray-500', 'pointer-events-none']
         : ['cursor-pointer', 'hover:bg-gray-300', 'text-pink-700']
-    },
-    activeNode() {
-      return this.$store.state.activeNode
     },
     activeNodeValue() {
       if (!this.editMode) return ""
@@ -160,7 +158,7 @@ export default {
   mounted() {
     this.$bus.$on("show-panel", this.open)
     this.$bus.$on("close-panel", this.close)
-    this.$bus.$on("show-panel-1", this.open)
+
     this.$once("hook:beforeDestroy", () => {
       this.$bus.$off("show-panel", this.open)
       this.$bus.$off("close-panel", this.close)
@@ -173,6 +171,7 @@ export default {
         // TODO
         this.editMode = true
       }
+      this.activeNode = e?.activeNode
       document.addEventListener("keydown", this.keyboardHandler)
     },
     close() {
@@ -226,20 +225,6 @@ export default {
         }
       }
     },
-    pickOperator(operator) {
-      this.selected.type = "operator"
-      this.selected.value = operator
-    },
-    pickNumber(number) {
-      if (this.selected && this.selected.type === "number") {
-        this.selected.value += "" + number
-      } else {
-        this.selected = {
-          type: "number",
-          value: `${number}`,
-        }
-      }
-    },
     confirm() {
       if (!this.selected.type && !this.selected.value) {
         this.close()
@@ -264,11 +249,10 @@ export default {
         ? this.$store.commit("editNode", payload)
         : this.$store.commit("addNode", payload)
 
+      this.$bus.$emit("newMutation")
       this.close()
     },
     handleSelect(opt) {
-      // FIXME change the object here
-
       if (this.selected && this.selected.type === 'number') {
         this.selected.value += '' + opt.value
 

@@ -1,35 +1,35 @@
 import Vue from "vue"
 import Vuex from "vuex"
 import { isEmpty, findNode } from "@/helpers";
+import * as _cloneDeep from 'lodash.clonedeep'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
 		formula: {},
-		activeNode: null,
 	},
 	mutations: {
-		setActiveNode(state, payload) {
-			state.activeNode = payload
-		},
 		addNode(state, payload) {
 			if (isEmpty(state.formula)) {
 				state.formula = payload
 			} else {
-				const formula = findNode(state.formula, state.activeNode.id)
+				const newFormula = _cloneDeep(state.formula)
+				const formula = findNode(newFormula, payload.parentId)
 				formula.items.push(payload)
+				state.formula = newFormula
 			}
 		},
 		editNode(state, payload) {
-			console.log(payload)
 			if (!payload.parentId) {
 				// Edit root Node
 				state.formula = payload
 			} else {
-				const parent = findNode(state.formula, payload.parentId)
+				const newFormula = _cloneDeep(state.formula)
+				const parent = findNode(newFormula, payload.parentId)
 				const index = parent.items.findIndex(x => x.id === payload.id)
 				parent.items.splice(index, 1, payload)
+				state.formula = newFormula
 			}
 		},
 		deleteNode(state, payload) {
@@ -37,11 +37,16 @@ export default new Vuex.Store({
 				// Delete root Node
 				state.formula = {}
 			} else {
-				const parent = findNode(state.formula, payload.parentId)
+				const newFormula = _cloneDeep(state.formula)
+				const parent = findNode(newFormula, payload.parentId)
 				const index = parent.items.findIndex(x => x.id === payload.id)
 				parent.items.splice(index, 1)
+				state.formula = newFormula
 			}
-		}
+		},
+		resetFormula() {
+			this.replaceState({ formula: {} });
+		},
 	},
 	actions: {},
 	getters: {
