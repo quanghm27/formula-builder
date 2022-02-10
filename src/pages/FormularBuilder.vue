@@ -6,7 +6,7 @@
       </div>
       <div class="flex justify-between items-center py-2">
         <div
-          class="flex gap-2"
+          class="flex gap-2 mr-auto"
         >
           <button
             class="px-4 py-1 text-white rounded uppercase"
@@ -22,6 +22,14 @@
         </div>
         <div>
           <div class="flex gap-2">
+            <button
+              class="p-2 text-gray-300 rounded"
+              :disabled="!existFormula"
+              :class="!existFormula ? ['bg-blue-300 cursor-not-allowed'] : ['bg-blue-600 cursor-pointer']"
+              @click="showJsonData = !showJsonData"
+            >
+              Show Json data
+            </button>
             <button
               class="p-2 text-gray-300 rounded"
               :disabled="!canUndo"
@@ -41,7 +49,10 @@
           </div>
         </div>
       </div>
-      <div class="bg-gray-200 py-4 px-2 shadow-lg border overflow-x-auto" style="max-height: 600px">
+      <div
+        class="bg-gray-200 py-4 px-2 shadow-lg border overflow-x-auto"
+        style="max-height: 600px"
+      >
         <div
           v-if="!existFormula"
           class="cursor-pointer bg-blue-500 text-white py-1 px-2 rounded w-40 mx-auto"
@@ -68,6 +79,20 @@
           :formula="formula"
         />
       </div>
+      <div
+        v-show="showJsonData"
+        class="mt-5"
+      >
+        <div class="text-gray-700 font-semibold text-xl">
+          Json Data
+        </div>
+        <textarea
+          v-model="jsonData"
+          rows="10"
+          class="w-full"
+        >
+        </textarea>
+      </div>
     </div>
   </div>
 </template>
@@ -88,7 +113,8 @@ export default {
     return {
       result: "",
       undoStack: [],
-      redoStack: []
+      redoStack: [],
+      showJsonData: false
     }
   },
   computed: {
@@ -104,6 +130,12 @@ export default {
     canRedo() {
       return this.redoStack.length
     },
+    jsonData() {
+      const replacer = (key, value) =>
+          typeof value === 'undefined' ? null : value;
+
+      return JSON.stringify(this.formula, replacer, 4)
+    }
   },
   created() {
     this.$store.subscribe(mutation => {
@@ -143,7 +175,7 @@ export default {
     redo() {
       const mutation = this.redoStack.pop()
       this.$store.commit(`${mutation.type}`, _cloneDeep(mutation.payload)) // Re-commit 1 mutation
-    }
+    },
   },
 }
 </script>
