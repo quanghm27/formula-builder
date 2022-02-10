@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-screen bg-blue-200 py-4">
+  <div class="w-full h-screen overflow-auto bg-blue-200 py-4">
     <div class="w-1/2 mx-auto h-64">
       <div class="mb-2 text-center text-3xl text-teal-700">
         Formula Builder
